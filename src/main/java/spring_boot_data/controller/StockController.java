@@ -1,32 +1,29 @@
 package spring_boot_data.controller;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import spring_boot_data.model.Stock;
 
 
 @RestController
 public class StockController {
 
     @Autowired
-    private MongoDbFactory mongo;
+    private MongoTemplate template;
 
     @RequestMapping("/stocks")
-    public DBObject getAllStock() {
-        DB db = mongo.getDb("sandbox");
-        DBCollection collection = db.getCollection("stocks");
+    public Stock getAllStock() {
+        Stock stock = new Stock();
+        stock.setCompanyName("Tesla");
+        stock.setSymbol("TLSA");
+        stock.setCeo("Danny");
+        stock.setPrice("250.000");
 
-        collection.insert(
-                new BasicDBObject()
-                        .append("companyName", "Ford")
-                        .append("symbol", "F")
-        );
+        template.insert(stock, "stock");
 
-        return collection.findOne(new BasicDBObject().append("symbol", "F"));
+        return template.findOne(new BasicQuery("{symbol: 'TLSA'}"), Stock.class);
     }
 }

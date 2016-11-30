@@ -1,20 +1,21 @@
 package spring_boot_data.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import spring_boot_data.model.Stock;
+import spring_boot_data.repository.StockRepository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
 
 @RestController
 public class StockController {
 
     @Autowired
-    private EntityManager entityManager;
+    private StockRepository stockRepository;
 
-    @RequestMapping(name = "/stocks")
-    public List<?> getAllStucks() {
-        return entityManager.createQuery("select s from Stock s").getResultList();
+    @RequestMapping("/stocks/{symbol}")
+    public Stock getStock(@PathVariable("symbol") String symbol) {
+        return stockRepository.findBySymbol(symbol);
     }
 }

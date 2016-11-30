@@ -1,13 +1,14 @@
 package spring_boot_data.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+
+
+@Document
 public class Stock {
     @Id
     private int stockId;
-
     private String companyName;
     private String symbol;
     private String price;

@@ -11,6 +11,15 @@ public class Stock {
     private String companyName;
     private String symbol;
     private String price;
+    private String ceo;
+
+    public String getCeo() {
+        return ceo;
+    }
+
+    public void setCeo(String ceo) {
+        this.ceo = ceo;
+    }
 
     public int getStockId() {
         return stockId;
